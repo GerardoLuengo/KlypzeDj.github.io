@@ -3,648 +3,1037 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DJ Klypze — Servicio</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<title>Klypze — Encuentra la luz en medio de la oscuridad</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#04030a;--b2:#09080f;--b3:#0f0d18;--b4:#16141f;
+  --red:#C41E3A;--corona:#E8631A;--corona2:#FF8C42;
+  --red-glow:rgba(196,30,58,0.2);--corona-glow:rgba(232,99,26,0.15);
+  --white:#F0EEF5;--muted:#7a7888;--dim:#3d3b4a;
+  --purple:#1a0a2e;--purple2:#2d1b4e;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--corona);}
 
-  :root {
-    --red: #E01010;
-    --red-dark: #9A0A0A;
-    --red-glow: rgba(224, 16, 16, 0.35);
-    --black: #080808;
-    --black-2: #111111;
-    --black-3: #1A1A1A;
-    --white: #F5F5F5;
-    --gray: #888;
-  }
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:60px;
+  background:rgba(4,3,10,0.88);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(232,99,26,0.1);
+  transition:border-color 0.4s;
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;
+  color:var(--white);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.eclipse-mark{
+  width:22px;height:22px;border-radius:50%;position:relative;
+  background:var(--black);
+  box-shadow:0 0 0 2px var(--corona),0 0 12px var(--corona-glow),inset -6px 0 0 0 rgba(232,99,26,0.15);
+}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;
+  font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--white);
+  background:transparent;border:1px solid var(--corona);
+  padding:9px 20px;text-decoration:none;transition:all 0.25s;
+}
+.nav-cta:hover{background:var(--corona);color:var(--black);}
 
-  html { scroll-behavior: smooth; }
+/* ── HERO ── */
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.hero-cosmos{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 100% 100% at 50% 50%,var(--purple) 0%,var(--black) 60%);
+}
+.hero-stars{position:absolute;inset:0;pointer-events:none;}
+.hero-eclipse-wrap{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(70vw,600px);height:min(70vw,600px);
+  display:flex;align-items:center;justify-content:center;
+}
+.eclipse-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:transparent;
+  box-shadow:0 0 120px 40px rgba(232,99,26,0.06),
+             0 0 240px 80px rgba(196,30,58,0.04);
+  animation:coronaPulse 6s ease-in-out infinite;
+}
+@keyframes coronaPulse{
+  0%,100%{box-shadow:0 0 80px 20px rgba(232,99,26,0.06),0 0 160px 60px rgba(196,30,58,0.03);}
+  50%{box-shadow:0 0 140px 60px rgba(232,99,26,0.1),0 0 280px 100px rgba(196,30,58,0.06);}
+}
+.eclipse-disk{
+  width:45%;height:45%;border-radius:50%;
+  background:var(--black);
+  box-shadow:
+    0 0 0 1px rgba(232,99,26,0.3),
+    0 0 30px 8px rgba(232,99,26,0.12),
+    0 0 80px 20px rgba(196,30,58,0.08),
+    inset -20% 10% 0 0 rgba(232,99,26,0.03);
+  position:relative;z-index:2;
+}
+.corona-flare{
+  position:absolute;top:50%;left:50%;
+  width:58%;height:58%;
+  border-radius:50%;
+  background:transparent;
+  box-shadow:0 0 0 1px rgba(232,99,26,0.15);
+  transform:translate(-50%,-50%);
+  animation:coronaRotate 20s linear infinite;
+}
+.corona-flare::before,.corona-flare::after{
+  content:'';position:absolute;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(232,99,26,0.25) 0%,transparent 70%);
+}
+.corona-flare::before{
+  width:30px;height:14px;top:-7px;left:calc(50% - 15px);
+  animation:flareGlow 4s ease-in-out infinite;
+}
+.corona-flare::after{
+  width:20px;height:10px;bottom:-5px;right:calc(50% - 10px);
+  animation:flareGlow 4s 2s ease-in-out infinite;
+}
+@keyframes coronaRotate{from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
+@keyframes flareGlow{0%,100%{opacity:0.4;}50%{opacity:1;}}
 
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--black);
-    color: var(--white);
-    overflow-x: hidden;
-  }
+.hero-content{
+  position:relative;z-index:5;text-align:center;
+  padding:2rem;max-width:800px;
+}
+.hero-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,16vw,180px);
+  line-height:0.85;letter-spacing:6px;
+  color:var(--white);
+  text-shadow:0 0 80px rgba(232,99,26,0.15);
+}
+.hero-name .corona-text{
+  background:linear-gradient(135deg,var(--corona2) 0%,var(--corona) 40%,var(--red) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-quote{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:clamp(15px,1.8vw,20px);
+  font-style:italic;font-weight:300;
+  color:rgba(240,238,245,0.55);
+  line-height:1.8;margin-top:2rem;
+  max-width:560px;margin-left:auto;margin-right:auto;
+}
+.hero-quote em{color:rgba(232,99,26,0.9);font-style:italic;}
+.hero-tagline{
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;
+  font-weight:600;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(240,238,245,0.35);margin-top:1.75rem;
+}
+.hero-actions{display:flex;justify-content:center;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;}
+.btn-corona{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--black);
+  background:linear-gradient(135deg,var(--corona2),var(--corona));
+  border:none;padding:14px 32px;text-decoration:none;
+  transition:opacity 0.2s;cursor:pointer;
+}
+.btn-corona:hover{opacity:0.88;}
+.btn-ghost{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--muted);background:transparent;
+  border:1px solid rgba(240,238,245,0.1);padding:14px 32px;
+  text-decoration:none;transition:all 0.2s;cursor:pointer;
+}
+.btn-ghost:hover{color:var(--white);border-color:rgba(240,238,245,0.3);}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-dot{
+  width:4px;height:4px;border-radius:50%;background:var(--corona);
+  animation:scrollFall 2s ease-in-out infinite;
+}
+.scroll-dot:nth-child(2){animation-delay:0.3s;opacity:0.6;}
+.scroll-dot:nth-child(3){animation-delay:0.6s;opacity:0.3;}
+@keyframes scrollFall{0%,100%{transform:translateY(-4px);}50%{transform:translateY(4px);}}
 
-  /* ─── NOISE TEXTURE OVERLAY ─── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
-  }
+/* ── MANIFESTO ── */
+#manifesto{
+  position:relative;
+  background:linear-gradient(180deg,var(--black) 0%,var(--b2) 50%,var(--black) 100%);
+  padding:8rem 3rem;overflow:hidden;
+}
+#manifesto::before{
+  content:'ECLIPSE';position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,20vw,280px);
+  color:rgba(240,238,245,0.02);letter-spacing:10px;pointer-events:none;
+  white-space:nowrap;
+}
+.manifesto-inner{max-width:900px;margin:0 auto;text-align:center;position:relative;z-index:1;}
+.manifesto-pre{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  font-weight:700;letter-spacing:6px;text-transform:uppercase;
+  color:var(--corona);margin-bottom:3rem;
+  display:flex;align-items:center;justify-content:center;gap:16px;
+}
+.manifesto-pre::before,.manifesto-pre::after{
+  content:'';display:block;height:1px;width:48px;
+  background:linear-gradient(90deg,transparent,var(--corona));
+}
+.manifesto-pre::after{transform:scaleX(-1);}
+.big-quote{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:clamp(22px,3.5vw,40px);
+  font-weight:300;line-height:1.6;
+  color:var(--white);margin-bottom:3rem;
+}
+.big-quote .highlight{
+  color:var(--corona);font-style:italic;
+}
+.manifesto-body{
+  font-size:16px;font-weight:300;line-height:2;
+  color:var(--muted);max-width:680px;margin:0 auto 3rem;
+}
+.manifesto-body strong{color:rgba(240,238,245,0.85);font-weight:400;}
+.eclipse-phases{
+  display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;
+  margin-top:4rem;padding-top:4rem;
+  border-top:1px solid rgba(232,99,26,0.1);
+}
+.phase{text-align:center;}
+.phase-symbol{
+  width:40px;height:40px;border-radius:50%;margin:0 auto 1rem;
+  position:relative;
+}
+.phase-symbol.p1{background:var(--b3);box-shadow:0 0 0 1px var(--dim);}
+.phase-symbol.p2{background:var(--b3);box-shadow:3px 0 0 0 rgba(232,99,26,0.4),0 0 0 1px rgba(232,99,26,0.2);}
+.phase-symbol.p3{background:var(--b3);box-shadow:0 0 8px 3px rgba(232,99,26,0.3),0 0 0 1px rgba(232,99,26,0.4);}
+.phase-symbol.p4{background:var(--b3);box-shadow:0 0 20px 6px rgba(232,99,26,0.4),0 0 40px 12px rgba(196,30,58,0.2),0 0 0 1px var(--corona);}
+.phase-name{
+  font-family:'Bebas Neue',sans-serif;font-size:18px;
+  letter-spacing:2px;color:var(--white);margin-bottom:4px;
+}
+.phase-desc{font-size:12px;font-weight:300;color:var(--muted);letter-spacing:1px;}
 
-  /* ─── HERO ─── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 4rem 2rem 3rem;
-    overflow: hidden;
-  }
+/* ── SECTIONS ── */
+.section{position:relative;z-index:1;padding:7rem 3rem;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.s-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  font-weight:700;letter-spacing:5px;text-transform:uppercase;
+  color:var(--corona);margin-bottom:0.75rem;
+  display:flex;align-items:center;gap:12px;
+}
+.s-eyebrow::before{content:'';width:20px;height:1px;background:var(--corona);}
+.s-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(48px,7vw,86px);line-height:0.92;
+  color:var(--white);margin-bottom:1.2rem;
+}
+.s-title .faded{color:var(--dim);}
+.s-sub{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:clamp(16px,1.8vw,20px);font-style:italic;
+  font-weight:300;color:rgba(240,238,245,0.45);
+  margin-bottom:3.5rem;max-width:560px;line-height:1.7;
+}
+.section-rule{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(232,99,26,0.2),transparent);
+}
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(224,16,16,0.18) 0%, transparent 70%),
-      linear-gradient(135deg, #0f0f0f 0%, #080808 100%);
-    z-index: 0;
-  }
+/* ── ABOUT ── */
+#about{background:var(--b2);}
+.about-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:6rem;align-items:center;}
+.photo-wrap{position:relative;}
+.photo-frame{
+  position:relative;overflow:hidden;
+  aspect-ratio:3/4;max-width:420px;
+}
+.photo-frame img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;
+  display:block;filter:contrast(1.12) saturate(0.8) brightness(0.92);
+}
+.photo-overlay-grad{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,3,10,0.9) 0%,rgba(4,3,10,0.2) 50%,transparent 75%);
+  pointer-events:none;
+}
+.photo-overlay-tint{
+  position:absolute;inset:0;
+  background:rgba(196,30,58,0.08);
+  mix-blend-mode:multiply;pointer-events:none;
+}
+.photo-corner-tl{
+  position:absolute;top:-1rem;left:-1rem;
+  width:60px;height:60px;
+  border-top:1px solid rgba(232,99,26,0.4);
+  border-left:1px solid rgba(232,99,26,0.4);
+}
+.photo-corner-br{
+  position:absolute;bottom:-1rem;right:-1rem;
+  width:60px;height:60px;
+  border-bottom:1px solid rgba(232,99,26,0.4);
+  border-right:1px solid rgba(232,99,26,0.4);
+}
+.photo-label{
+  position:absolute;bottom:1.5rem;left:1.5rem;
+  font-family:'Bebas Neue',sans-serif;font-size:13px;
+  letter-spacing:4px;color:rgba(240,238,245,0.4);text-transform:uppercase;
+}
+.photo-eclipse-badge{
+  position:absolute;top:1.5rem;right:1.5rem;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--black);
+  box-shadow:0 0 0 1px rgba(232,99,26,0.5),0 0 16px rgba(232,99,26,0.2);
+}
+.about-content .s-sub{margin-bottom:2rem;}
+.about-body p{
+  font-size:15px;font-weight:300;line-height:2;color:var(--muted);
+  margin-bottom:1.25rem;
+}
+.about-body strong{color:var(--white);font-weight:400;}
+.about-body .corona-text{color:var(--corona);}
+.pillars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:2.5rem;}
+.pillar{
+  padding:1.25rem 1rem;
+  border:1px solid rgba(232,99,26,0.1);
+  background:rgba(232,99,26,0.02);
+  transition:border-color 0.3s;
+  text-align:center;
+}
+.pillar:hover{border-color:rgba(232,99,26,0.3);}
+.pillar-icon{font-size:20px;margin-bottom:0.5rem;}
+.pillar-name{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white);
+  margin-bottom:2px;
+}
+.pillar-word{font-size:11px;font-weight:300;color:var(--muted);}
 
-  .hero-lines {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-  }
+/* ── LIVE EXPERIENCE ── */
+#experiencia{background:var(--black);}
+.exp-intro{
+  font-size:16px;font-weight:300;line-height:2;
+  color:var(--muted);max-width:600px;margin-bottom:4rem;
+}
+.exp-intro strong{color:var(--white);font-weight:400;}
+.journey{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:0;
+  border:1px solid rgba(232,99,26,0.1);
+  margin-bottom:4rem;
+}
+.journey-step{
+  padding:2.5rem 1.5rem;
+  border-right:1px solid rgba(232,99,26,0.08);
+  transition:background 0.3s;position:relative;overflow:hidden;
+}
+.journey-step:last-child{border-right:none;}
+.journey-step:hover{background:rgba(232,99,26,0.03);}
+.journey-step::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--corona),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform 0.4s;
+}
+.journey-step:hover::before{transform:scaleX(1);}
+.step-num{
+  font-family:'Bebas Neue',sans-serif;font-size:42px;
+  line-height:1;color:rgba(232,99,26,0.1);margin-bottom:1rem;
+  transition:color 0.3s;
+}
+.journey-step:hover .step-num{color:rgba(232,99,26,0.2);}
+.step-name{
+  font-family:'Bebas Neue',sans-serif;font-size:20px;
+  letter-spacing:1px;color:var(--white);margin-bottom:0.5rem;
+}
+.step-desc{font-size:12px;font-weight:300;line-height:1.7;color:var(--muted);}
 
-  .hero-lines::before {
-    content: '';
-    position: absolute;
-    top: -20%;
-    right: -5%;
-    width: 55%;
-    height: 140%;
-    background: repeating-linear-gradient(
-      -15deg,
-      transparent,
-      transparent 28px,
-      rgba(224,16,16,0.04) 28px,
-      rgba(224,16,16,0.04) 29px
-    );
-  }
+.services-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(232,99,26,0.08);}
+.svc{
+  background:var(--b2);padding:2.5rem 2rem;
+  position:relative;overflow:hidden;transition:background 0.3s;
+}
+.svc:hover{background:var(--b3);}
+.svc-n{
+  font-family:'Bebas Neue',sans-serif;font-size:52px;
+  color:rgba(232,99,26,0.08);line-height:1;margin-bottom:1rem;
+  transition:color 0.3s;
+}
+.svc:hover .svc-n{color:rgba(232,99,26,0.18);}
+.svc-title{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;
+  color:var(--white);letter-spacing:1px;margin-bottom:0.75rem;
+}
+.svc-body{font-size:14px;font-weight:300;line-height:1.85;color:var(--muted);}
+.svc::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--corona),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform 0.5s;
+}
+.svc:hover::after{transform:scaleX(1);}
 
-  .hero-lines::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, var(--red) 40%, var(--red) 60%, transparent 100%);
-    opacity: 0.5;
-  }
+.genres-block{margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(232,99,26,0.08);}
+.genres-label{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.genres-label.main{color:var(--corona);}
+.genres-label.vers{color:var(--dim);margin-top:1.5rem;}
+.g-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0;}
+.g-tag{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:8px 18px;border:1px solid rgba(232,99,26,0.2);
+  color:var(--muted);transition:all 0.2s;
+}
+.g-tag.main{border-color:rgba(232,99,26,0.5);color:var(--white);background:rgba(232,99,26,0.06);}
+.g-tag:hover{border-color:var(--corona);color:var(--white);}
 
-  .hero-inner {
-    position: relative;
-    z-index: 1;
-    max-width: 960px;
-    margin: 0 auto;
-    width: 100%;
-  }
+/* ── SOFTWARE ── */
+#software{background:var(--b2);overflow:hidden;}
+.sw-hero{
+  position:relative;
+  background:linear-gradient(135deg,var(--b3) 0%,var(--b4) 100%);
+  border:1px solid rgba(232,99,26,0.12);
+  padding:4rem;margin-bottom:4rem;overflow:hidden;
+}
+.sw-watermark{
+  position:absolute;top:50%;right:-2rem;transform:translateY(-50%);
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,12vw,160px);
+  color:rgba(232,99,26,0.04);white-space:nowrap;pointer-events:none;
+  letter-spacing:-2px;line-height:1;
+}
+.sw-badge{
+  display:inline-block;font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--corona);border:1px solid rgba(232,99,26,0.3);
+  padding:5px 14px;margin-bottom:1.5rem;
+}
+.sw-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,8vw,100px);line-height:0.9;
+  color:var(--white);margin-bottom:1.5rem;
+}
+.sw-name span{
+  background:linear-gradient(135deg,var(--corona2),var(--corona));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sw-pitch{
+  font-size:16px;font-weight:300;line-height:2;
+  color:var(--muted);max-width:600px;margin-bottom:2.5rem;
+}
+.sw-pitch strong{color:var(--white);font-weight:400;}
+.sw-features{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:3rem;}
+.sw-feat{
+  background:rgba(4,3,10,0.5);border:1px solid rgba(255,255,255,0.04);
+  padding:1.75rem;transition:border-color 0.3s;
+}
+.sw-feat:hover{border-color:rgba(232,99,26,0.25);}
+.sw-feat-icon{font-size:24px;margin-bottom:1rem;}
+.sw-feat-name{
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--white);margin-bottom:0.5rem;
+}
+.sw-feat-desc{font-size:14px;font-weight:300;line-height:1.8;color:var(--muted);}
+.sw-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;}
 
-  .tag {
-    display: inline-block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--red);
-    border: 1px solid var(--red-dark);
-    padding: 5px 14px;
-    margin-bottom: 2rem;
-    animation: fadeUp 0.7s ease both;
-  }
+/* ── STORE ── */
+#tienda{background:var(--black);}
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.pack{
+  background:var(--b2);border:1px solid rgba(255,255,255,0.04);
+  overflow:hidden;transition:border-color 0.3s,transform 0.3s;
+}
+.pack:hover{border-color:rgba(232,99,26,0.3);transform:translateY(-4px);}
+.pack.hero-pack{border-color:rgba(232,99,26,0.4);}
+.pack-head{padding:2rem 1.75rem 1.5rem;position:relative;overflow:hidden;}
+.pack-bg-word{
+  position:absolute;top:50%;right:-0.5rem;transform:translateY(-50%);
+  font-family:'Bebas Neue',sans-serif;font-size:80px;
+  color:rgba(255,255,255,0.03);white-space:nowrap;
+}
+.pack-flag{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;
+  font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--corona);margin-bottom:1rem;display:block;
+}
+.pack.hero-pack .pack-flag{
+  background:linear-gradient(135deg,var(--corona2),var(--corona));
+  color:var(--black);padding:3px 12px;display:inline-block;
+}
+.pack-name{
+  font-family:'Bebas Neue',sans-serif;font-size:34px;
+  color:var(--white);letter-spacing:1px;margin-bottom:0.4rem;
+}
+.pack-sub{font-size:13px;font-weight:300;color:var(--muted);line-height:1.6;}
+.pack-mid{height:1px;background:rgba(255,255,255,0.04);}
+.pack-body{padding:1.5rem 1.75rem;}
+.pack-list{list-style:none;margin-bottom:1.25rem;}
+.pack-list li{
+  font-size:13px;font-weight:300;color:var(--muted);
+  padding:5px 0;display:flex;align-items:center;gap:10px;
+}
+.pack-list li::before{
+  content:'';width:4px;height:4px;border-radius:50%;
+  background:var(--corona);flex-shrink:0;
+}
+.pack-price{
+  font-family:'Bebas Neue',sans-serif;font-size:44px;
+  color:var(--white);display:flex;align-items:baseline;gap:6px;
+}
+.pack-price .cur{font-size:16px;color:var(--muted);}
+.pack-price .per{font-size:13px;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:300;}
+.pack-buy{
+  display:block;width:100%;margin-top:1.25rem;
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);border:1px solid rgba(255,255,255,0.07);
+  background:transparent;padding:12px;text-align:center;
+  cursor:pointer;text-decoration:none;transition:all 0.2s;
+}
+.pack:hover .pack-buy{color:var(--white);border-color:rgba(232,99,26,0.4);background:rgba(232,99,26,0.05);}
+.pack.hero-pack .pack-buy{
+  background:linear-gradient(135deg,var(--corona2),var(--corona));
+  color:var(--black);border-color:transparent;
+}
+.pack.hero-pack .pack-buy:hover{opacity:0.88;}
 
-  .hero-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(100px, 18vw, 200px);
-    line-height: 0.85;
-    letter-spacing: -2px;
-    color: var(--white);
-    animation: fadeUp 0.7s 0.1s ease both;
-  }
+/* ── CONTACT ── */
+#contacto{background:var(--b2);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.contact-left .s-sub{margin-bottom:1.5rem;}
+.contact-desc{
+  font-size:15px;font-weight:300;line-height:2;
+  color:var(--muted);margin-bottom:2.5rem;
+}
+.contact-desc strong{color:var(--white);font-weight:400;}
+.contact-desc .corona-word{color:var(--corona);}
+.social-stack{display:flex;flex-direction:column;gap:0.6rem;}
+.social-item{
+  display:flex;align-items:center;gap:1rem;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;
+  font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  padding:0.9rem 1.2rem;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:all 0.2s;
+}
+.social-item:hover{color:var(--white);border-color:rgba(232,99,26,0.3);background:rgba(232,99,26,0.04);}
+.si-icon{font-size:18px;flex-shrink:0;}
+.si-label{flex:1;}
+.si-arr{color:var(--dim);}
+.form{display:flex;flex-direction:column;gap:1rem;}
+.f-group{display:flex;flex-direction:column;gap:5px;}
+.f-label{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;
+  font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--dim);
+}
+.f-in,.f-ta,.f-sel{
+  background:var(--b3);border:1px solid rgba(255,255,255,0.06);
+  color:var(--white);font-family:'Barlow',sans-serif;
+  font-size:14px;font-weight:300;padding:13px 15px;
+  outline:none;transition:border-color 0.2s;
+}
+.f-in:focus,.f-ta:focus,.f-sel:focus{border-color:rgba(232,99,26,0.5);}
+.f-in::placeholder,.f-ta::placeholder{color:var(--dim);}
+.f-ta{resize:vertical;min-height:110px;}
+.f-sel{cursor:pointer;}
+.f-sel option{background:var(--b3);}
+.f-submit{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--black);
+  background:linear-gradient(135deg,var(--corona2),var(--corona));
+  border:none;padding:15px;cursor:pointer;
+  transition:opacity 0.2s;margin-top:0.5rem;
+}
+.f-submit:hover{opacity:0.88;}
 
-  .hero-name span {
-    display: block;
-    color: var(--red);
-    -webkit-text-stroke: 2px var(--red);
-    text-shadow: 0 0 40px var(--red-glow);
-  }
+/* ── FOOTER ── */
+footer{
+  background:var(--black);
+  border-top:1px solid rgba(232,99,26,0.08);
+  padding:3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1.5rem;position:relative;z-index:1;
+}
+.f-logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Bebas Neue',sans-serif;font-size:22px;
+  color:var(--white);letter-spacing:3px;
+}
+.f-copy{
+  font-family:'Cormorant Garamond',sans-serif;font-style:italic;
+  font-size:13px;color:var(--dim);text-align:center;flex:1;
+}
+.f-links{display:flex;gap:2rem;}
+.f-links a{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--dim);text-decoration:none;transition:color 0.2s;
+}
+.f-links a:hover{color:var(--corona);}
 
-  .hero-sub {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(16px, 2.5vw, 22px);
-    font-weight: 300;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-top: 1.5rem;
-    animation: fadeUp 0.7s 0.2s ease both;
-  }
+/* ── STARS ── */
+.star{position:absolute;border-radius:50%;background:var(--white);opacity:0;animation:twinkle var(--d) var(--del) ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0;}50%{opacity:var(--op);}}
 
-  .hero-sub strong {
-    color: var(--white);
-    font-weight: 600;
-  }
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.9s ease,transform 0.9s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}.d4{transition-delay:0.4s;}
 
-  .hero-scroll {
-    margin-top: 4rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    animation: fadeUp 0.7s 0.4s ease both;
-  }
-
-  .scroll-line {
-    width: 48px;
-    height: 1px;
-    background: var(--red);
-  }
-
-  .scroll-text {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gray);
-  }
-
-  /* ─── SECTIONS ─── */
-  section {
-    position: relative;
-    z-index: 1;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 5rem 2rem;
-  }
-
-  .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 1rem;
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(40px, 7vw, 72px);
-    line-height: 1;
-    letter-spacing: 1px;
-    color: var(--white);
-    margin-bottom: 2.5rem;
-  }
-
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, var(--red) 0%, transparent 60%);
-    opacity: 0.4;
-    margin: 0 auto;
-  }
-
-  /* ─── ABOUT ─── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .about-text {
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 1.9;
-    color: #aaa;
-  }
-
-  .about-text p + p { margin-top: 1rem; }
-
-  .about-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .stat-item {
-    border-left: 3px solid var(--red);
-    padding-left: 1.5rem;
-  }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
-    color: var(--white);
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-top: 2px;
-  }
-
-  /* ─── SERVICIOS ─── */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(224,16,16,0.15);
-    border: 1px solid rgba(224,16,16,0.15);
-  }
-
-  .service-card {
-    background: var(--black-2);
-    padding: 2.5rem 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s ease;
-  }
-
-  .service-card:hover { background: var(--black-3); }
-
-  .service-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--red);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .service-card:hover::before { transform: scaleX(1); }
-
-  .service-icon {
-    font-size: 32px;
-    margin-bottom: 1.5rem;
-  }
-
-  .service-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 1px;
-    color: var(--white);
-    margin-bottom: 0.75rem;
-  }
-
-  .service-desc {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--gray);
-  }
-
-  /* ─── GÉNEROS ─── */
-  .genres-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .genre-pill {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    padding: 10px 24px;
-    border: 1px solid rgba(224,16,16,0.3);
-    color: var(--gray);
-    transition: all 0.2s ease;
-    cursor: default;
-  }
-
-  .genre-pill.highlight {
-    border-color: var(--red);
-    color: var(--white);
-    background: rgba(224,16,16,0.08);
-  }
-
-  .genre-pill:hover {
-    border-color: var(--red);
-    color: var(--white);
-    background: rgba(224,16,16,0.1);
-  }
-
-  /* ─── EQUIPO ─── */
-  .equipo-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .equipo-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.2rem 1.5rem;
-    border: 1px solid rgba(255,255,255,0.05);
-    background: var(--black-2);
-  }
-
-  .equipo-dot {
-    width: 8px; height: 8px;
-    background: var(--red);
-    flex-shrink: 0;
-  }
-
-  .equipo-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--white);
-  }
-
-  /* ─── CTA / CONTACTO ─── */
-  .cta-section {
-    position: relative;
-    z-index: 1;
-    background: var(--black-2);
-    border-top: 1px solid rgba(224,16,16,0.2);
-    border-bottom: 1px solid rgba(224,16,16,0.2);
-    padding: 5rem 2rem;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(224,16,16,0.07) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .cta-inner { position: relative; z-index: 1; }
-
-  .cta-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(50px, 9vw, 96px);
-    line-height: 0.95;
-    color: var(--white);
-    margin-bottom: 0.5rem;
-  }
-
-  .cta-title span { color: var(--red); text-shadow: 0 0 30px var(--red-glow); }
-
-  .cta-sub {
-    font-size: 16px;
-    font-weight: 300;
-    color: var(--gray);
-    margin-bottom: 3rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-family: 'Barlow Condensed', sans-serif;
-  }
-
-  .contact-row {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .contact-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 14px 32px;
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--gray);
-    background: transparent;
-    transition: all 0.2s ease;
-  }
-
-  .contact-btn:hover {
-    border-color: var(--red);
-    color: var(--white);
-    background: rgba(224,16,16,0.08);
-  }
-
-  .contact-btn.primary {
-    border-color: var(--red);
-    color: var(--white);
-    background: var(--red);
-  }
-
-  .contact-btn.primary:hover { background: var(--red-dark); }
-
-  /* ─── FOOTER ─── */
-  footer {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 2rem;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.15);
-  }
-
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 700px) {
-    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .services-grid { grid-template-columns: 1fr; }
-    .equipo-list { grid-template-columns: 1fr; }
-    .hero-name { font-size: 22vw; }
-  }
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 1.5rem;}.nav-links{display:none;}
+  .section{padding:5rem 1.5rem;}
+  #manifesto{padding:5rem 1.5rem;}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:3rem;}
+  .services-trio,.packs{grid-template-columns:1fr;}
+  .journey{grid-template-columns:1fr 1fr;}
+  .sw-features{grid-template-columns:1fr;}
+  .sw-hero{padding:2rem;}
+  .pillars{grid-template-columns:1fr 1fr;}
+  footer{flex-direction:column;align-items:flex-start;}
+  .eclipse-phases{gap:2rem;}
+}
 </style>
 </head>
 <body>
 
-<!-- ─── HERO ─── -->
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-lines"></div>
-  <div class="hero-inner">
-    <div class="tag">Servicios DJ · Chile</div>
-    <h1 class="hero-name">
-      DJ<span>KLYPZE</span>
-    </h1>
-    <p class="hero-sub">
-      <strong>Melodic Techno</strong> &nbsp;·&nbsp; <strong>Tech House</strong> &nbsp;·&nbsp; <strong>House</strong>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <div class="eclipse-mark"></div>
+    KLYPZE
+  </a>
+  <ul class="nav-links">
+    <li><a href="#manifesto">El Concepto</a></li>
+    <li><a href="#about">Quién Soy</a></li>
+    <li><a href="#experiencia">Experiencia</a></li>
+    <li><a href="#software">Software</a></li>
+    <li><a href="#tienda">Tienda</a></li>
+    <li><a href="#contacto">Booking</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Reserva tu fecha</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-cosmos"></div>
+  <div class="hero-stars" id="stars"></div>
+  <div class="hero-eclipse-wrap">
+    <div class="eclipse-ring"></div>
+    <div class="eclipse-disk">
+      <div class="corona-flare"></div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-name"><span class="corona-text">KLYPZE</span></h1>
+    <p class="hero-quote">
+      "Muchas veces se dice que se vive y se muere una vez,<br>
+      pero yo creo que eso es falso.<br>
+      <em>Se vive cada día de nuestra vida y se muere una sola vez.</em>"
     </p>
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      <span class="scroll-text">Descubre el servicio</span>
+    <p class="hero-tagline">DJ · Software · Music — Chile</p>
+    <div class="hero-actions">
+      <a href="#experiencia" class="btn-corona">Descubre la experiencia</a>
+      <a href="#manifesto" class="btn-ghost">El concepto Klypze</a>
     </div>
   </div>
-</div>
+  <div class="hero-scroll">
+    <div class="scroll-dot"></div>
+    <div class="scroll-dot"></div>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
 
-<div class="divider"></div>
-
-<!-- ─── ABOUT ─── -->
-<section class="reveal">
-  <div class="section-label">Quién soy</div>
-  <h2 class="section-title">El Sonido<br>que Mueve</h2>
-  <div class="about-grid">
-    <div class="about-text">
-      <p>DJ Klypze es un proyecto nacido desde la pasión por la música electrónica en su forma más intensa. Especializado en <strong style="color:#fff">Melodic Techno, Power Techno, Tech House y House</strong>, cada set es una experiencia construida para dominar el piso de baile.</p>
-      <p>Con una paleta musical que va desde el <strong style="color:#fff">Peak Time más agresivo</strong> hasta los clásicos del <strong style="color:#fff">Britpop, 80s y Reggaeton</strong>, se adapta a cualquier ambiente sin perder identidad.</p>
-    </div>
-    <div class="about-stats">
-      <div class="stat-item">
-        <div class="stat-num">+2</div>
-        <div class="stat-label">Años en la escena</div>
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="manifesto-inner reveal">
+    <div class="manifesto-pre">El Eclipse como filosofía</div>
+    <p class="big-quote">
+      El nombre <span class="highlight">Klypze</span> nace de la palabra Eclipse.<br>
+      Porque la oscuridad no es el final —<br>
+      <span class="highlight">es el instante justo antes de que la luz regrese.</span>
+    </p>
+    <p class="manifesto-body">
+      Klypze no es un proyecto construido desde tendencias o redes sociales.
+      Nace desde una <strong>experiencia humana real: oscuridad, transformación y renacimiento.</strong>
+      Cada set es una narrativa. Cada track es un capítulo. Cada noche es
+      el viaje completo de alguien que entendió que <strong>la verdadera luz
+      no viene desde afuera — viene de la capacidad de seguir avanzando
+      incluso en medio de la sombra.</strong>
+    </p>
+    <div class="eclipse-phases">
+      <div class="phase">
+        <div class="phase-symbol p1"></div>
+        <div class="phase-name">Oscuridad</div>
+        <div class="phase-desc">El inicio del viaje</div>
       </div>
-      <div class="stat-item">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Sets en vivo personalizados</div>
+      <div class="phase">
+        <div class="phase-symbol p2"></div>
+        <div class="phase-name">Tensión</div>
+        <div class="phase-desc">La presión que forma</div>
       </div>
-      <div class="stat-item">
-        <div class="stat-num">6+</div>
-        <div class="stat-label">Géneros dominados</div>
+      <div class="phase">
+        <div class="phase-symbol p3"></div>
+        <div class="phase-name">Ruptura</div>
+        <div class="phase-desc">El punto de quiebre</div>
+      </div>
+      <div class="phase">
+        <div class="phase-symbol p4"></div>
+        <div class="phase-name">Renacimiento</div>
+        <div class="phase-desc">La luz que siempre estuvo</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="section-rule"></div>
 
-<!-- ─── SERVICIOS ─── -->
-<section class="reveal">
-  <div class="section-label">Qué ofrezco</div>
-  <h2 class="section-title">Servicios</h2>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">💡</div>
-      <div class="service-name">Iluminación & FX</div>
-      <p class="service-desc">Efectos visuales sincronizados con la música para crear una atmósfera total. El sonido y la luz como una sola experiencia.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🎛</div>
-      <div class="service-name">Live Set</div>
-      <p class="service-desc">Presentación completamente en vivo. Sin mezclas pre-grabadas. Cada actuación es única, reactiva y construida en el momento.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🎵</div>
-      <div class="service-name">Playlist a Pedido</div>
-      <p class="service-desc">Curación musical personalizada según el evento, el público y el ambiente. Adaptación total al espíritu de cada noche.</p>
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="photo-wrap reveal">
+        <div class="photo-frame">
+          <img src="data:image/jpeg;base64,PHOTO_BASE64_PLACEHOLDER" alt="DJ Klypze">
+          <div class="photo-overlay-grad"></div>
+          <div class="photo-overlay-tint"></div>
+          <div class="photo-corner-tl"></div>
+          <div class="photo-corner-br"></div>
+          <div class="photo-label">En la pista</div>
+          <div class="photo-eclipse-badge"></div>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <div class="s-eyebrow">La historia detrás del sonido</div>
+        <h2 class="s-title">Más que<br>un <span class="faded">artista.</span></h2>
+        <p class="s-sub">Una propuesta artística con profundidad filosófica y visión tecnológica.</p>
+        <div class="about-body">
+          <p>Hay artistas que construyen una marca desde la estética. Klypze se construyó desde <strong>adentro hacia afuera</strong> — desde una etapa de vida que exigía transformación, desde la necesidad de encontrar un lenguaje para lo que no se puede decir con palabras.</p>
+          <p>El resultado es un proyecto que mezcla <strong>techno melódico de atmósfera oscura e hipnótica</strong>, influenciado por la escena de Berlín, con <span class="corona-text">momentos de liberación emocional y esperanza</span> — porque el viaje siempre termina con la luz volviendo.</p>
+          <p>Y porque la misma obsesión por el detalle musical llevó a algo más: <strong>un software y un ecosistema de herramientas</strong> pensadas para que otros DJs también puedan dominar su craft con precisión.</p>
+        </div>
+        <div class="pillars">
+          <div class="pillar"><div class="pillar-icon">🎵</div><div class="pillar-name">Musical</div><div class="pillar-word">Emocional e hipnótico</div></div>
+          <div class="pillar"><div class="pillar-icon">🌑</div><div class="pillar-name">Visual</div><div class="pillar-word">Cinematográfico</div></div>
+          <div class="pillar"><div class="pillar-icon">💡</div><div class="pillar-name">Filosófico</div><div class="pillar-word">Renacimiento</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="section-rule"></div>
 
-<!-- ─── GÉNEROS ─── -->
-<section class="reveal">
-  <div class="section-label">Especialidad musical</div>
-  <h2 class="section-title">Géneros</h2>
-  <div style="margin-bottom:2rem;">
-    <p style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:1rem;">Especialidad principal</p>
-    <div class="genres-wrap">
-      <div class="genre-pill highlight">Melodic Techno</div>
-      <div class="genre-pill highlight">Power Techno</div>
-      <div class="genre-pill highlight">Peak Time</div>
-      <div class="genre-pill highlight">Tech House</div>
-      <div class="genre-pill highlight">House</div>
+<!-- LIVE EXPERIENCE -->
+<section id="experiencia" class="section">
+  <div class="section-inner">
+    <div class="s-eyebrow reveal">Experiencia en vivo</div>
+    <h2 class="s-title reveal">El set <span class="faded">como</span><br>narrativa.</h2>
+    <p class="s-sub reveal">Cada noche tiene una estructura emocional. Klypze no improvisa — construye.</p>
+    <div class="journey reveal">
+      <div class="journey-step">
+        <div class="step-num">I</div>
+        <div class="step-name">Oscuridad</div>
+        <p class="step-desc">La bienvenida al viaje. Atmósferas densas que preparan el espacio.</p>
+      </div>
+      <div class="journey-step">
+        <div class="step-num">II</div>
+        <div class="step-name">Tensión</div>
+        <p class="step-desc">La energía construyéndose. Hipnótico, progresivo, irresistible.</p>
+      </div>
+      <div class="journey-step">
+        <div class="step-num">III</div>
+        <div class="step-name">Ruptura</div>
+        <p class="step-desc">El momento en que la pista lo siente antes de saberlo.</p>
+      </div>
+      <div class="journey-step">
+        <div class="step-num">IV</div>
+        <div class="step-name">Liberación</div>
+        <p class="step-desc">La explosión. El instante por el que viniste esta noche.</p>
+      </div>
+      <div class="journey-step">
+        <div class="step-num">V</div>
+        <div class="step-name">Renacimiento</div>
+        <p class="step-desc">La pista entiende que algo cambió. Eso es Klypze.</p>
+      </div>
     </div>
-  </div>
-  <div>
-    <p style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray);margin-bottom:1rem;">Versatilidad</p>
-    <div class="genres-wrap">
-      <div class="genre-pill">80s Classics</div>
-      <div class="genre-pill">Reggaeton</div>
-      <div class="genre-pill">Britpop</div>
+    <div class="services-trio">
+      <div class="svc reveal">
+        <div class="svc-n">01</div>
+        <div class="svc-title">Live Set</div>
+        <p class="svc-body">Cero mezclas pregrabadas. Todo construido en el momento, respondiendo a la energía real de la pista. Porque cada noche merece su propia historia.</p>
+      </div>
+      <div class="svc reveal d1">
+        <div class="svc-n">02</div>
+        <div class="svc-title">Iluminación & FX</div>
+        <p class="svc-body">Efectos visuales sincronizados con la narrativa del set. El show DMX no es decoración — es parte del viaje emocional, capa por capa.</p>
+      </div>
+      <div class="svc reveal d2">
+        <div class="svc-n">03</div>
+        <div class="svc-title">Playlist a Medida</div>
+        <p class="svc-body">Para eventos que necesitan versatilidad sin perder identidad. Curación completa del set adaptada al público, al momento y al ambiente.</p>
+      </div>
+    </div>
+    <div class="genres-block reveal">
+      <div class="genres-label main">Identidad sonora</div>
+      <div class="g-row">
+        <div class="g-tag main">Melodic Techno</div>
+        <div class="g-tag main">Power Techno</div>
+        <div class="g-tag main">Peak Time</div>
+        <div class="g-tag main">Tech House</div>
+        <div class="g-tag main">House</div>
+      </div>
+      <div class="genres-label vers">Versatilidad</div>
+      <div class="g-row">
+        <div class="g-tag">80s Classics</div>
+        <div class="g-tag">Reggaeton</div>
+        <div class="g-tag">Britpop</div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="section-rule"></div>
 
-<!-- ─── EQUIPO ─── -->
-<section class="reveal">
-  <div class="section-label">Setup técnico</div>
-  <h2 class="section-title">Equipamiento</h2>
-  <div class="equipo-list">
-    <div class="equipo-item">
-      <div class="equipo-dot"></div>
-      <div class="equipo-text">Controladora DJ profesional</div>
+<!-- SOFTWARE -->
+<section id="software" class="section">
+  <div class="section-inner">
+    <div class="s-eyebrow reveal">Tecnología para DJs</div>
+    <h2 class="s-title reveal">La ventaja que<br><span class="faded">los demás</span><br>no ven venir.</h2>
+    <div class="sw-hero reveal">
+      <div class="sw-watermark">KLYPZEDJTOOLS</div>
+      <div class="sw-badge">En desarrollo — Acceso anticipado disponible</div>
+      <div class="sw-name">Klypze<span>Dj</span>Tools</div>
+      <p class="sw-pitch">
+        La misma obsesión que define los sets de Klypze se convirtió en software.
+        <strong>KlypzeDjTools nació de una pregunta simple: ¿por qué los DJs todavía organizan
+        su música manualmente?</strong> La respuesta es una plataforma que convierte tu librería
+        en tu arma más precisa — antes de que suene la primera nota.
+      </p>
+      <div class="sw-cta">
+        <a href="#contacto" class="btn-corona">Quiero acceso anticipado</a>
+        <a href="#contacto" class="btn-ghost">Notificarme del lanzamiento</a>
+      </div>
     </div>
-    <div class="equipo-item">
-      <div class="equipo-dot"></div>
-      <div class="equipo-text">Sistema de iluminación LED</div>
-    </div>
-    <div class="equipo-item">
-      <div class="equipo-dot"></div>
-      <div class="equipo-text">Máquina de humo / efectos</div>
-    </div>
-    <div class="equipo-item">
-      <div class="equipo-dot"></div>
-      <div class="equipo-text">Librería de tracks actualizada</div>
-    </div>
-    <div class="equipo-item">
-      <div class="equipo-dot"></div>
-      <div class="equipo-text">Adaptación a sonido del recinto</div>
-    </div>
-    <div class="equipo-item">
-      <div class="equipo-dot"></div>
-      <div class="equipo-text">Montaje y desmontaje incluido</div>
+    <div class="sw-features">
+      <div class="sw-feat reveal">
+        <div class="sw-feat-icon">⚡</div>
+        <div class="sw-feat-name">Análisis de Energía</div>
+        <p class="sw-feat-desc">Visualiza el arco emocional de tu set antes de subirte a la cabina. Sube, mantén y explota en el momento exacto — con datos, no con suposiciones.</p>
+      </div>
+      <div class="sw-feat reveal d1">
+        <div class="sw-feat-icon">🎵</div>
+        <div class="sw-feat-name">Análisis de Tonalidades</div>
+        <p class="sw-feat-desc">Mezclas en armonía perfecta de forma automática. Las transiciones que antes tomaban horas de prueba y error, ahora las ves antes de ejecutarlas.</p>
+      </div>
+      <div class="sw-feat reveal d2">
+        <div class="sw-feat-icon">🔢</div>
+        <div class="sw-feat-name">BPM Inteligente</div>
+        <p class="sw-feat-desc">Filtra, agrupa y encuentra el track exacto para cada momento del set en segundos. Tu tiempo en la cabina es para crear, no para buscar.</p>
+      </div>
+      <div class="sw-feat reveal d3">
+        <div class="sw-feat-icon">🗂</div>
+        <div class="sw-feat-name">Organización Total</div>
+        <p class="sw-feat-desc">Tu librería con miles de tracks se convierte en un sistema que trabaja para ti — por género, energía, tonalidad y patrón. El próximo set ya está organizado.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ─── CTA CONTACTO ─── -->
-<div class="cta-section reveal">
-  <div class="cta-inner">
-    <div class="cta-title">¿Listo para<br><span>Encender</span><br>tu Evento?</div>
-    <p class="cta-sub">Consulta disponibilidad · Sin costo</p>
-    <div class="contact-row">
-      <a href="https://wa.me/56900000000" class="contact-btn primary">
-        📲 WhatsApp
-      </a>
-      <a href="https://instagram.com/klypze" class="contact-btn">
-        📸 @klypze
-      </a>
-      <a href="mailto:klypze@email.com" class="contact-btn">
-        ✉ Email
-      </a>
+<div class="section-rule"></div>
+
+<!-- TIENDA -->
+<section id="tienda" class="section">
+  <div class="section-inner">
+    <div class="s-eyebrow reveal">Music Store</div>
+    <h2 class="s-title reveal">Música que<br><span class="faded">ya está</span><br>lista.</h2>
+    <p class="s-sub reveal">Los DJs que marcan tendencia no improvisan con lo que tienen — tienen lo que necesitan antes de subir a la cabina.</p>
+    <div class="packs">
+      <div class="pack reveal">
+        <div class="pack-head">
+          <div class="pack-bg-word">TECHNO</div>
+          <span class="pack-flag">Pack esencial</span>
+          <div class="pack-name">Techno Core</div>
+          <p class="pack-sub">Melodic, Power & Peak Time. El viaje emocional completo para dominar la noche.</p>
+        </div>
+        <div class="pack-mid"></div>
+        <div class="pack-body">
+          <ul class="pack-list">
+            <li>50 tracks curados y organizados</li>
+            <li>Clasificados por energía (1–10)</li>
+            <li>BPM y tonalidad incluidos</li>
+            <li>Melodic · Power · Peak Time</li>
+          </ul>
+          <div class="pack-price"><span class="cur">USD</span>19<span class="per">/ pack</span></div>
+          <a href="#contacto" class="pack-buy">Obtener pack</a>
+        </div>
+      </div>
+      <div class="pack hero-pack reveal d1">
+        <div class="pack-head">
+          <div class="pack-bg-word">HOUSE</div>
+          <span class="pack-flag">Más popular</span>
+          <div class="pack-name">House & Tech</div>
+          <p class="pack-sub">House y Tech House de última generación. El sonido que mueve las pistas ahora mismo.</p>
+        </div>
+        <div class="pack-mid"></div>
+        <div class="pack-body">
+          <ul class="pack-list">
+            <li>60 tracks seleccionados</li>
+            <li>Progresión de sets incluida</li>
+            <li>Patrones de mezcla recomendados</li>
+            <li>House · Tech House · Deep</li>
+          </ul>
+          <div class="pack-price"><span class="cur">USD</span>24<span class="per">/ pack</span></div>
+          <a href="#contacto" class="pack-buy">Obtener pack</a>
+        </div>
+      </div>
+      <div class="pack reveal d2">
+        <div class="pack-head">
+          <div class="pack-bg-word">FULL</div>
+          <span class="pack-flag">Máxima versatilidad</span>
+          <div class="pack-name">Full Range</div>
+          <p class="pack-sub">Para el DJ que se adapta a cualquier pista sin perder identidad ni convicción.</p>
+        </div>
+        <div class="pack-mid"></div>
+        <div class="pack-body">
+          <ul class="pack-list">
+            <li>80 tracks de múltiples géneros</li>
+            <li>80s · Reggaeton · Britpop + Electro</li>
+            <li>Ordenados por momento del set</li>
+            <li>Ideal para eventos y fiestas</li>
+          </ul>
+          <div class="pack-price"><span class="cur">USD</span>29<span class="per">/ pack</span></div>
+          <a href="#contacto" class="pack-buy">Obtener pack</a>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
+<div class="section-rule"></div>
+
+<!-- CONTACTO -->
+<section id="contacto" class="section">
+  <div class="section-inner">
+    <div class="s-eyebrow reveal">Booking & Contacto</div>
+    <h2 class="s-title reveal">Construyamos<br><span class="faded">algo</span><br>memorable.</h2>
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="s-sub">Cada noche reservada es una historia que alguien llevará consigo para siempre.</p>
+        <p class="contact-desc">
+          Si buscas un DJ que entienda que <strong>tu evento no es un fondo musical sino una experiencia</strong>,
+          este es el momento de escribir.
+          También puedes contactar para <span class="corona-word">acceso anticipado a KlypzeDjTools</span>,
+          consultar sobre packs de música o simplemente conectar con el proyecto.
+        </p>
+        <div class="social-stack">
+          <a href="https://wa.me/56900000000" class="social-item" target="_blank">
+            <span class="si-icon">📲</span><span class="si-label">WhatsApp directo</span><span class="si-arr">→</span>
+          </a>
+          <a href="https://instagram.com/klypze" class="social-item" target="_blank">
+            <span class="si-icon">📸</span><span class="si-label">@klypze en Instagram</span><span class="si-arr">→</span>
+          </a>
+          <a href="mailto:contacto@klypze.com" class="social-item">
+            <span class="si-icon">✉️</span><span class="si-label">contacto@klypze.com</span><span class="si-arr">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <form class="form" onsubmit="handleForm(event)">
+          <div class="f-group">
+            <label class="f-label">Nombre</label>
+            <input type="text" class="f-in" placeholder="Tu nombre">
+          </div>
+          <div class="f-group">
+            <label class="f-label">Email</label>
+            <input type="email" class="f-in" placeholder="tu@email.com">
+          </div>
+          <div class="f-group">
+            <label class="f-label">Me interesa</label>
+            <select class="f-sel">
+              <option value="">Selecciona</option>
+              <option>Booking DJ para evento</option>
+              <option>Acceso anticipado a KlypzeDjTools</option>
+              <option>Pack de música</option>
+              <option>Colaboración / Otro</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Mensaje</label>
+            <textarea class="f-ta" placeholder="Cuéntame tu visión..."></textarea>
+          </div>
+          <button type="submit" class="f-submit">Enviar mensaje →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
-  &copy; 2025 DJ Klypze &nbsp;—&nbsp; Todos los derechos reservados
+  <div class="f-logo"><div class="eclipse-mark"></div> KLYPZE</div>
+  <div class="f-copy">"La representación artística de encontrar luz incluso en medio de la oscuridad."</div>
+  <div class="f-links">
+    <a href="#manifesto">Concepto</a>
+    <a href="#experiencia">DJ</a>
+    <a href="#software">Software</a>
+    <a href="#tienda">Tienda</a>
+  </div>
 </footer>
 
 <script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15 });
+// Stars
+const starsEl = document.getElementById('stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*2+0.5;
+  s.style.cssText=`width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*5}s;--del:${Math.random()*8}s;--op:${0.2+Math.random()*0.6};`;
+  starsEl.appendChild(s);
+}
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// Reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Nav
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').style.borderBottomColor=
+    window.scrollY>60?'rgba(232,99,26,0.2)':'rgba(232,99,26,0.1)';
+});
+
+// Form
+function handleForm(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('.f-submit');
+  btn.textContent='✓ Recibido — te contactamos pronto';
+  btn.style.background='#1a5e2a';btn.disabled=true;
+}
 </script>
 </body>
 </html>
